@@ -40,12 +40,15 @@ void print_packet(unsigned int packet[])
         int data_start_point = 3;
         for(unsigned i = 0; i < length; i++){
             if(i == length - 1){
-                printf("%d ", (int)packet[data_start_point]);
+                printf("%d \n", (int)packet[data_start_point]);
             }
             else{
                 printf("%d ", (int)packet[data_start_point++]);
             }
         }
+    }
+    else{
+        printf("\n");
     }
 }
 
