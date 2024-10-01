@@ -35,7 +35,7 @@ void print_packet(unsigned int packet[])
     printf("Last BE: %d\n", last_BE);
     printf("1st BE: %d\n", first_BE);
 
-    if(packet_type == 0x1FFFFF){
+    if(packet_type == 0x100000){
         printf("Data: ");
         int data_start_point = 3;
         for(unsigned i = 0; i < length; i++){
