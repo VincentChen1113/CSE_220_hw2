@@ -34,15 +34,17 @@ void print_packet(unsigned int packet[])
     printf("Tag: %d\n", tag);
     printf("Last BE: %d\n", last_BE);
     printf("1st BE: %d\n", first_BE);
+    printf("Data: ");
 
     if(packet_type == 0x100000){
-        printf("Data: ");
         int data_start_point = 3;
         for(unsigned i = 0; i < length; i++){
             if(i == length - 1){
                 printf("%d ", (int)packet[data_start_point]);
             }
-            printf("%d, ", (int)packet[data_start_point++]);
+            else{
+                printf("%d ", (int)packet[data_start_point++]);
+            }
         }
     }
 }
