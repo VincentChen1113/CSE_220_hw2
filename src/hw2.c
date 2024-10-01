@@ -59,7 +59,7 @@ void store_values(unsigned int packet[], char *memory){
     unsigned int header1 = packet[1];
     unsigned int header2 = packet[2];
 
-    unsigned int packet_type = (header0 >> 10) & 0x3FFFFF;
+    //unsigned int packet_type = (header0 >> 10) & 0x3FFFFF;
     unsigned int length = header0 & 0x3FF;
     unsigned int address = header2 & 0x3FFFFFFF;
     unsigned int last_BE = (header1 >> 4) & 0xF;
@@ -70,7 +70,7 @@ void store_values(unsigned int packet[], char *memory){
     int data_index = 3;
     unsigned int data = packet[data_index];
 
-    if(packet_type == 0x100000){
+
         if(length > 0 && address < 0x100000){
             //writing memory for 1st BE
             if(first_BE & 1)
@@ -123,7 +123,7 @@ void store_values(unsigned int packet[], char *memory){
             else
                 memory_index++;
         }
-    }
+    
 }
 
 unsigned int* create_completion(unsigned int packets[], const char *memory)
