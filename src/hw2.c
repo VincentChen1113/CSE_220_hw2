@@ -12,7 +12,7 @@ void print_packet(unsigned int packet[])
     unsigned int header1 = packet[1];
     unsigned int header2 = packet[2];
 
-    unsigned int packet_type = (header0 >> 10) & 0x3FFFFF;
+    unsigned int packet_type = header0;
     unsigned int length = header0 & 0x3FF;
     unsigned int address = header2 & 0x3FFFFFFF;
     unsigned int requester_ID = (header1 >> 16) & 0xFFFF;
