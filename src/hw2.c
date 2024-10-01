@@ -68,7 +68,7 @@ void store_values(unsigned int packet[], char *memory){
     int data_index = 3;
     unsigned int data = packet[data_index];
 
-    if(packet_type == 0x1FFFFFFF){
+    if(packet_type == 0x100000){
         if(length > 0 && address < 0x100000){
             //writing memory for 1st BE
             if(first_BE & 1)
