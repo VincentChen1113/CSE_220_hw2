@@ -24,7 +24,7 @@ void print_packet(unsigned int packet[])
     //printf("%02X %02X %02X %02X \n",((unsigned char *)(&header1))[0], ((unsigned char *)(&header1))[1], ((unsigned char *)(&header1))[2], ((unsigned char *)(&header1))[3]);
    // printf("%02X %02X %02X %02X \n",((unsigned char *)(&header2))[0], ((unsigned char *)(&header2))[1], ((unsigned char *)(&header2))[2], ((unsigned char *)(&header2))[3]);
     
-    printf("type: %08X\n", packet_type);
+    printf("type: %08X %08X\n", packet_type, packet_type >> 10);
 
     if(packet_type == 0x1FFFFF){
         printf("Packet Type: Write\n");
