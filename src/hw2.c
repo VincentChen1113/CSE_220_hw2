@@ -12,7 +12,7 @@ void print_packet(unsigned int packet[])
     unsigned int header1 = packet[1];
     unsigned int header2 = packet[2];
 
-    unsigned int packet_type = header0 >> 10;
+    unsigned int packet_type = (header0 >> 10) & 0x3FFFFF;
     unsigned int length = header0 & 0x3FF;
     unsigned int address = header2 & 0x3FFFFFFF;
     unsigned int requester_ID = (header1 >> 16) & 0xFFFF;
@@ -25,18 +25,18 @@ void print_packet(unsigned int packet[])
    // printf("%02X %02X %02X %02X \n",((unsigned char *)(&header2))[0], ((unsigned char *)(&header2))[1], ((unsigned char *)(&header2))[2], ((unsigned char *)(&header2))[3]);
 
     if(packet_type == 0x1FFFFF){
-        printf("Packet Type: Write");
+        printf("Packet Type: Write\n");
     }
     else if(packet_type == 0){
-        printf("Packet Type: Read");
+        printf("Packet Type: Read\n");
     }
 
-    printf("Address: %d", address);
-    printf("Length: %d", length);
-    printf("Requester ID: %d", requester_ID);
-    printf("Tag: %d", tag);
-    printf("Last BE: %d", last_BE);
-    printf("1st BE: %d", first_BE);
+    printf("Address: %d\n", address);
+    printf("Length: %d\n", length);
+    printf("Requester ID: %d\n", requester_ID);
+    printf("Tag: %d\n", tag);
+    printf("Last BE: %d\n", last_BE);
+    printf("1st BE: %d\n", first_BE);
 
     if(packet_type == 0x1FFFFF){
         printf("Data: ");
