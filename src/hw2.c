@@ -20,11 +20,6 @@ void print_packet(unsigned int packet[])
     unsigned int last_BE = (header1 >> 4) & 0xF;
     unsigned int first_BE = header1 & 0xF;
 
-   //printf("%02X %02X %02X %02X \n",((unsigned char *)(&header0))[0], ((unsigned char *)(&header0))[1], ((unsigned char *)(&header0))[2], ((unsigned char *)(&header0))[3]);
-    //printf("%02X %02X %02X %02X \n",((unsigned char *)(&header1))[0], ((unsigned char *)(&header1))[1], ((unsigned char *)(&header1))[2], ((unsigned char *)(&header1))[3]);
-   // printf("%02X %02X %02X %02X \n",((unsigned char *)(&header2))[0], ((unsigned char *)(&header2))[1], ((unsigned char *)(&header2))[2], ((unsigned char *)(&header2))[3]);
-    
-
 
     if(packet_type == 0x100000){
         printf("Packet Type: Write\n");
