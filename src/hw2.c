@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <arpa/inet.h>
+#include <string.h>
 
 #include "hw2.h"
 
@@ -52,6 +53,7 @@ void print_packet(unsigned int packet[])
     }
 }
 
+
 void store_values(unsigned int packet[], char *memory){
     unsigned int header0 = packet[0];
     unsigned int header1 = packet[1];
@@ -77,17 +79,17 @@ void store_values(unsigned int packet[], char *memory){
                 memory_index++;
 
             if(first_BE & 2)
-                memory[memory_index++] = ((data >> 2) & 0xFF);
+                memory[memory_index++] = ((data >> 8) & 0xFF);
             else
                 memory_index++;
 
             if(first_BE & 4)
-                memory[memory_index++] = ((data >> 4)& 0xFF);
+                memory[memory_index++] = ((data >> 16)& 0xFF);
             else
                 memory_index++;
 
             if(first_BE & 8)
-                memory[memory_index++] = ((data >> 6) & 0xFF);
+                memory[memory_index++] = ((data >> 24) & 0xFF);
             else
                 memory_index++;
 
@@ -109,21 +111,19 @@ void store_values(unsigned int packet[], char *memory){
             else
                 memory_index++;
             if(last_BE & 2)
-                memory[memory_index++] = ((last_data >> 2) & 0xFF);
+                memory[memory_index++] = ((last_data >> 8) & 0xFF);
             else
                 memory_index++;
             if(last_BE & 4)
-                memory[memory_index++] = ((last_data >> 4) & 0xFF);
+                memory[memory_index++] = ((last_data >> 16) & 0xFF);
             else
                 memory_index++;
             if(last_BE & 8)
-                memory[memory_index++] = ((last_data >> 6) & 0xFF);
+                memory[memory_index++] = ((last_data >> 24) & 0xFF);
             else
                 memory_index++;
         }
     }
-    
-
 }
 
 unsigned int* create_completion(unsigned int packets[], const char *memory)
