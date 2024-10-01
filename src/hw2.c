@@ -12,7 +12,7 @@ void print_packet(unsigned int packet[])
     unsigned int header1 = packet[1];
     unsigned int header2 = packet[2];
 
-    unsigned int packet_type = header0;
+    unsigned int packet_type = (header0 >> 10) & 0x3FFFFF;
     unsigned int length = header0 & 0x3FF;
     unsigned int address = header2 & 0x3FFFFFFF;
     unsigned int requester_ID = (header1 >> 16) & 0xFFFF;
@@ -24,9 +24,9 @@ void print_packet(unsigned int packet[])
     //printf("%02X %02X %02X %02X \n",((unsigned char *)(&header1))[0], ((unsigned char *)(&header1))[1], ((unsigned char *)(&header1))[2], ((unsigned char *)(&header1))[3]);
    // printf("%02X %02X %02X %02X \n",((unsigned char *)(&header2))[0], ((unsigned char *)(&header2))[1], ((unsigned char *)(&header2))[2], ((unsigned char *)(&header2))[3]);
     
-    printf("type: %08X %08X\n", packet_type, packet_type >> 10);
 
-    if(packet_type == 0x1FFFFF){
+
+    if(packet_type == 0x100000){
         printf("Packet Type: Write\n");
     }
     else if(packet_type == 0){
