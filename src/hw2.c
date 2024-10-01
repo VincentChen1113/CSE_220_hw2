@@ -8,13 +8,13 @@
 
 void print_packet(unsigned int packet[])
 {
-    unsigned int header0 = htonl(packet[0]);
-    unsigned int header1 = htonl(packet[1]);
-    unsigned int header2 = htonl(packet[2]);
+    unsigned int header0 = packet[0];
+    unsigned int header1 = packet[1];
+    unsigned int header2 = ntohl(packet[2]);
 
     unsigned int packet_type = header0 >> 10;
     unsigned int length = header0 & 0x3FF;
-    unsigned int address = header2 >> 2;
+    unsigned int address = htonl(header2 >> 2);
     unsigned int requester_ID = (header1 >> 16) & 0xFFFF;
     unsigned int tag = (header1 >> 8) & 0xFF;
     unsigned int last_BE = (header1 >> 4) & 0xF;
