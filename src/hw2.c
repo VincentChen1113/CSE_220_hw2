@@ -61,6 +61,7 @@ void store_values(unsigned int packets[], char *memory){
         unsigned int header1 = packets[packets_index++];//1 -> 2
         unsigned int header2 = packets[packets_index++];//2 -> 3
 
+        unsigned int packet_type = (header0 >> 10) & 0x3FFFFF;
         unsigned int length = header0 & 0x3FF;
         unsigned int address = header2 & 0x3FFFFFFF;
         unsigned int last_BE = (header1 >> 4) & 0xF;
@@ -69,7 +70,10 @@ void store_values(unsigned int packets[], char *memory){
         
         unsigned int memory_index = address;
         unsigned int data = packets[packets_index++];
-
+        if(packet_type != 0x100000){
+            packets_index += length;
+            continue;
+        }
         if(address < 0x100000){
             //writing memory for 1st BE
             if(first_BE & 1) // 0b0001
@@ -87,12 +91,14 @@ void store_values(unsigned int packets[], char *memory){
             else
                 memory_index++;
 
-            if(first_BE & 8)
-                memory[memory_index++] = ((data >> 24) & 0xFF);
+            if(first_BE & 8)//0b1000
+                memory[memory_index++] = (char)((data >> 24) & 0xFF);
             else
                 memory_index++;
 
-            if(length > 2){
+            if(length == 1)
+                continue; // check for only one data
+            else if(length > 2){
                 for(unsigned int i = 1; i < length - 1; i++){
                     data = packets[packets_index++];
                     memory[memory_index++] = (data & 0xFF);
