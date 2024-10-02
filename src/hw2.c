@@ -57,9 +57,9 @@ void print_packet(unsigned int packet[])
 void store_values(unsigned int packets[], char *memory){
     unsigned int packets_index = 0;
     while(packets[packets_index] != 0){
-        unsigned int header0 = packets[packets_index++];
-        unsigned int header1 = packets[packets_index++];
-        unsigned int header2 = packets[packets_index++];
+        unsigned int header0 = packets[packets_index++];//0 -> 1
+        unsigned int header1 = packets[packets_index++];//1 -> 2
+        unsigned int header2 = packets[packets_index++];//2 -> 3
 
         unsigned int length = header0 & 0x3FF;
         unsigned int address = header2 & 0x3FFFFFFF;
@@ -68,12 +68,11 @@ void store_values(unsigned int packets[], char *memory){
 
         
         unsigned int memory_index = address;
-        unsigned int data = packets[packets_index];
-
+        unsigned int data = packets[packets_index++];
 
         if(address < 0x100000){
             //writing memory for 1st BE
-            if(first_BE & 1)
+            if(first_BE & 1) // 0b0001
                 memory[memory_index++] = (data & 0xFF);
             else 
                 memory_index++;
@@ -95,11 +94,11 @@ void store_values(unsigned int packets[], char *memory){
 
             if(length > 2){
                 for(unsigned int i = 1; i < length - 1; i++){
-                    packets_index++;
+                    data = packets[packets_index++];
                     memory[memory_index++] = (data & 0xFF);
-                    memory[memory_index++] = ((data >> 2) & 0xFF);
-                    memory[memory_index++] = ((data >> 4)& 0xFF);
-                    memory[memory_index++] = ((data >> 6) & 0xFF);
+                    memory[memory_index++] = ((data >> 8) & 0xFF);
+                    memory[memory_index++] = ((data >> 16)& 0xFF);
+                    memory[memory_index++] = ((data >> 24) & 0xFF);
                 }
             }
 
@@ -121,10 +120,10 @@ void store_values(unsigned int packets[], char *memory){
                 memory[memory_index++] = ((last_data >> 24) & 0xFF);
             else
                 memory_index++;
-            packets_index++;
+            packets_index++;// move to next request
         }
         else{
-            ;//Do nothing and go to next packet
+            break;//Do nothing and go to next packet
         }
     }
     
