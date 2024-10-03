@@ -147,6 +147,7 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
     header_type <<= 25;
     unsigned int completer_id = 220;
     completer_id <<= 16;
+    completer_id >>= 8;
     unsigned int byte_count = 0;
 
     while(packets[current_packets_index] != 0){
