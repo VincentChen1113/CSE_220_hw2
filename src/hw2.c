@@ -147,7 +147,6 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
     header_type <<= 25;
     unsigned int completer_id = 220;
     completer_id <<= 16;
-    completer_id >>= 8;
     unsigned int byte_count = 0;
 
     while(packets[current_packets_index] != 0){
@@ -180,17 +179,17 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
                     memory_index++;
 
                 if(first_BE & 2)
-                    data |= ((memory[memory_index++] << 8) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF00);
                 else
                     memory_index++;
 
                 if(first_BE & 4)
-                    data |= ((memory[memory_index++] << 16) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF0000);
                 else
                     memory_index++;
 
                 if(first_BE & 8)//0b1000
-                    data |= ((memory[memory_index++] << 24) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF000000);
                 else
                     memory_index++;
                 
@@ -199,9 +198,9 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
                 for(unsigned int i = address + 1; i <= 0x4000; i++){
                     data = 0;
                     data |= (memory[memory_index++] & 0xFF);
-                    data |= ((memory[memory_index++] << 8) & 0xFF);
-                    data |= ((memory[memory_index++] << 16) & 0xFF);
-                    data |= ((memory[memory_index++] << 24) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF00);
+                    data |= (memory[memory_index++] & 0xFF0000);
+                    data |= (memory[memory_index++] & 0xFF000000);
                     completed_pockets[complete_read_index++] = data;// put in data
                 } //address exceed 0x4000 split to next packet
 
@@ -215,9 +214,9 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
                 for(unsigned int i = 0; i < length; i++){
                     data = 0;
                     data |= (memory[memory_index++] & 0xFF);
-                    data |= ((memory[memory_index++] << 8) & 0xFF);
-                    data |= ((memory[memory_index++] << 16) & 0xFF);
-                    data |= ((memory[memory_index++] << 24) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF00);
+                    data |= (memory[memory_index++] & 0xFF0000);
+                    data |= (memory[memory_index++] & 0xFF000000);
                     completed_pockets[complete_read_index++] = data;// put in data
                 }
 
@@ -227,15 +226,15 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
                 else
                     memory_index++;
                 if(last_BE & 2)
-                    data |= ((memory[memory_index++] << 8) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF00);
                 else
                     memory_index++;
                 if(last_BE & 4)
-                    data |= ((memory[memory_index++] << 16) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF0000);
                 else
                     memory_index++;
                 if(last_BE & 8)
-                    data |= ((memory[memory_index++] << 24) & 0xFF);
+                     data |= (memory[memory_index++] & 0xFF000000);
                 else
                     memory_index++;  
                 
@@ -254,17 +253,17 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
                     memory_index++;
 
                 if(first_BE & 2)
-                    data |= ((memory[memory_index++] << 8) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF00);
                 else
                     memory_index++;
 
                 if(first_BE & 4)
-                    data |= ((memory[memory_index++] << 16) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF0000);
                 else
                     memory_index++;
 
                 if(first_BE & 8)//0b1000
-                    data |= ((memory[memory_index++] << 24) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF000000);
                 else
                     memory_index++;
                 
@@ -273,9 +272,9 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
                 for(unsigned int i = 1; i < length; i++){
                     data = 0;
                     data |= (memory[memory_index++] & 0xFF);
-                    data |= ((memory[memory_index++] << 8) & 0xFF);
-                    data |= ((memory[memory_index++] << 16) & 0xFF);
-                    data |= ((memory[memory_index++] << 24) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF00);
+                    data |= (memory[memory_index++] & 0xFF0000);
+                    data |= (memory[memory_index++] & 0xFF000000);
                     completed_pockets[complete_read_index++] = data;// put in data
                 }
 
@@ -285,15 +284,15 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
                 else
                     memory_index++;
                 if(last_BE & 2)
-                    data |= ((memory[memory_index++] << 8) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF00);
                 else
                     memory_index++;
                 if(last_BE & 4)
-                    data |= ((memory[memory_index++] << 16) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF0000);
                 else
                     memory_index++;
                 if(last_BE & 8)
-                    data |= ((memory[memory_index++] << 24) & 0xFF);
+                    data |= (memory[memory_index++] & 0xFF000000);
                 else
                     memory_index++;  
                 
