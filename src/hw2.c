@@ -135,8 +135,8 @@ void store_values(unsigned int packets[], char *memory){
     
 }
 
-unsigned int* create_completion(unsigned int packets[], const char *memory)
-{
+unsigned int* create_completion(unsigned int packets[], const char *memory){
+
     unsigned int *completed_pockets = malloc(262144 * sizeof(unsigned int)); //1 MB pocket to store and return
     if(completed_pockets == NULL)
         return NULL;
@@ -149,7 +149,7 @@ unsigned int* create_completion(unsigned int packets[], const char *memory)
     completer_id <<= 16;
     unsigned int byte_count = 0;
 
-    while(current_packets_index != 0){
+    while(packets[current_packets_index] != 0){
         unsigned int header0 = packets[current_packets_index++];//0 -> 1
         unsigned int header1 = packets[current_packets_index++];//1 -> 2
         unsigned int header2 = packets[current_packets_index++];//2 -> 3
@@ -308,5 +308,4 @@ unsigned int* create_completion(unsigned int packets[], const char *memory)
     }
     
 	return completed_pockets;
-    free(completed_pockets);
 }
