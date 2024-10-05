@@ -306,7 +306,6 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
             }    
         }
         else{ // request type is not read
-            current_packets_index += length;
             continue;
         }
     }
