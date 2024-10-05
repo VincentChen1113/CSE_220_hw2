@@ -136,7 +136,8 @@ void store_values(unsigned int packets[], char *memory){
             packets_index++;// move to next request
         }
         else{
-            break;//Do nothing and go to next packet
+            packets_index++;
+            continue;//Do nothing and stop
         }
     }
     
