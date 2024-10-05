@@ -169,8 +169,8 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
 
 
         if(packet_type == 0){
-             if((address + (length * 4)) > 0x4000 && address < 0x4000){
-                unsigned int exceed = (address + (length * 4)) - 0x4000;
+             if(((address % 0x4000) + (length * 4)) > 0x4000){
+                unsigned int exceed = ((address % 0x4000) + (length * 4)) - 0x4000;
                 completed_pockets[complete_read_index++] = (header_type | (length - exceed/4)); //completion header0 wrote
                 completed_pockets[complete_read_index++] = (completer_id | (byte_count & 0xFFF)); //completion header1 wrote
                 completed_pockets[complete_read_index++] = ((requester_ID << 16) | (tag << 8) | lower_address ); ////completion header2 wrote
@@ -201,7 +201,7 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
 
                 //for(unsigned int i = 1; i < (length - exceed/4); i++){
                 j = 1;
-                while(j < (length - exceed/4)){
+                while(j < (length - exceed/4)){ //bug here
                     data = 0;
                     data |= (memory[memory_index++] & 0xFF);
                     data |= ((memory[memory_index++] << 8) & 0xFF00);
@@ -249,7 +249,7 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
                 completed_pockets[complete_read_index++] = data;              
                                 
             }
-            else{
+            else{// address lower than 0x4000
                 completed_pockets[complete_read_index++] = (header_type | length); //completion header0 wrote
                 completed_pockets[complete_read_index++] = (completer_id | (byte_count & 0xFFF)); //completion header1 wrote
                 completed_pockets[complete_read_index++] = ((requester_ID << 16) | (tag << 8) | lower_address); ////completion header2 wrote
