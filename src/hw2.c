@@ -137,7 +137,7 @@ void store_values(unsigned int packets[], char *memory){
 
 unsigned int* create_completion(unsigned int packets[], const char *memory){
 
-    unsigned int *completed_pockets = malloc(262144 * sizeof(unsigned int)); //1 MB pocket to store and return
+    unsigned int *completed_pockets = malloc(1024 * 1024 * 10 * sizeof(unsigned int)); //10 MB pocket to store and return
     if(completed_pockets == NULL)
         return NULL;
 
@@ -169,7 +169,7 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
 
 
         if(packet_type == 0){
-            if((address + length) >= 0x4000){
+             if((address + length) > 0x4000 && address < 0x4000){
                 unsigned int exceed = (address + length) - 0x4000;
                 completed_pockets[complete_read_index++] = (header_type | (length - exceed)); //completion header0 wrote
                 completed_pockets[complete_read_index++] = (completer_id | (byte_count & 0xFFF)); //completion header1 wrote
