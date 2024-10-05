@@ -105,6 +105,9 @@ void store_values(unsigned int packets[], char *memory){
 
             if(length == 1)
                 continue; // check for only one data
+            else if(memory_index + length * 4 > 0x1000000){
+                break;
+            }
             else if(length > 2){
                 for(unsigned int i = 1; i < length - 1; i++){
                     data = packets[packets_index++];
