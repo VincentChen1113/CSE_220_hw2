@@ -9,6 +9,7 @@
 
 void print_packet(unsigned int packet[])
 {
+    if(packet == 0) return;
     unsigned int header0 = packet[0];
     unsigned int header1 = packet[1];
     unsigned int header2 = packet[2];
@@ -141,7 +142,8 @@ void store_values(unsigned int packets[], char *memory){
 }
 
 unsigned int* create_completion(unsigned int packets[], const char *memory){
-
+    if(packets == 0 || memory == 0) return 0;
+    
     unsigned int *completed_pockets = malloc(1024 * 1024 * 1 * sizeof(unsigned int)); //10 MB pocket to store and return
     if(completed_pockets == NULL)
         return NULL;
