@@ -77,7 +77,7 @@ void store_values(unsigned int packets[], char *memory){
         
         unsigned int memory_index = address;
         unsigned int data = packets[packets_index++];
-        if(packet_type != 0x100000){
+        if(packet_type != 0x100000 || length == 0){
             packets_index += length;
             continue;
         }
