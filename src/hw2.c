@@ -59,6 +59,8 @@ void print_packet(unsigned int packet[])
 
 void store_values(unsigned int packets[], char *memory){
     unsigned int packets_index = 0;
+    if(packets == 0) return;
+    if(memory == 0) return;
     while(packets[packets_index] != 0){
         unsigned int header0 = packets[packets_index++];//0 -> 1
         unsigned int header1 = packets[packets_index++];//1 -> 2
