@@ -28,6 +28,9 @@ void print_packet(unsigned int packet[])
     else if(packet_type == 0){
         printf("Packet Type: Read\n");
     }
+    else{
+        return;
+    }
 
     printf("Address: %d\n", address);
     printf("Length: %d\n", length);
