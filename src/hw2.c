@@ -163,15 +163,15 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
         unsigned int last_BE = (header1 >> 4) & 0xF;
         unsigned int first_BE = header1 & 0xF;
         byte_count = length * 4;
-        unsigned int lower_address = address & 0x7F;
+        unsigned int lower_address = address & 0x7C;
         unsigned int memory_index = address;
-
+        unsigned int j = 1;
 
 
         if(packet_type == 0){
-             if((address + length) > 0x4000 && address < 0x4000){
-                unsigned int exceed = (address + length) - 0x4000;
-                completed_pockets[complete_read_index++] = (header_type | (length - exceed)); //completion header0 wrote
+             if((address + (length * 4)) > 0x4000 && address < 0x4000){
+                unsigned int exceed = (address + (length * 4)) - 0x4000;
+                completed_pockets[complete_read_index++] = (header_type | (length - exceed/4)); //completion header0 wrote
                 completed_pockets[complete_read_index++] = (completer_id | (byte_count & 0xFFF)); //completion header1 wrote
                 completed_pockets[complete_read_index++] = ((requester_ID << 16) | (tag << 8) | lower_address ); ////completion header2 wrote
                 
@@ -199,16 +199,19 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
                 
                 completed_pockets[complete_read_index++] = data;
 
-                for(unsigned int i = 1; i < (length - exceed); i++){
+                //for(unsigned int i = 1; i < (length - exceed/4); i++){
+                j = 1;
+                while(j < (length - exceed/4)){
                     data = 0;
                     data |= (memory[memory_index++] & 0xFF);
                     data |= ((memory[memory_index++] << 8) & 0xFF00);
                     data |= ((memory[memory_index++] << 16) & 0xFF0000);
                     data |= ((memory[memory_index++] << 24) & 0xFF000000);
                     completed_pockets[complete_read_index++] = data;// put in data
+                    j++;
                 } //address exceed 0x4000 split to next packet
 
-                length -= exceed; //update length
+                length = exceed/4; //update length
                 byte_count = length * 4; //update byte count
                 lower_address = 0; //update low address
                 completed_pockets[complete_read_index++] = (header_type | length); //completion header0 wrote
