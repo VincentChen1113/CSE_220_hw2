@@ -174,13 +174,7 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
         unsigned int lower_address = address & 0x7C;
         unsigned int memory_index = address;
         unsigned int j = 1;
-
-        if(address >= 0x1000000 || (address + length * 4) > 0x1000000){
-            return 0;
-        }
-        if(length == 0){
-            return 0;
-        }
+        
 
         if(packet_type == 0){
              if(((address % 0x4000) + (length * 4)) > 0x4000){
@@ -189,6 +183,13 @@ unsigned int* create_completion(unsigned int packets[], const char *memory){
                 completed_pockets[complete_read_index++] = (completer_id | (byte_count & 0xFFF)); //completion header1 wrote
                 completed_pockets[complete_read_index++] = ((requester_ID << 16) | (tag << 8) | lower_address ); ////completion header2 wrote
                 
+                if(memory_index + length * 4 > 0x1000000){
+                    continue;
+                }
+                if(length == 0){
+                    continue;
+                }//
+
                 unsigned int data = 0;
 
                 if(first_BE & 1) // 0b0001
